@@ -5,14 +5,17 @@ import SelectBank from './SelectBank/SelectBank'
 import AccountName from './AccountName/AccountName'
 import AccountNumber from './AccountNumber/AccountNumber'
 import Amount from './Amount/Amount'
-import Generator from './Generator/Generator'
+import Generator from './QrGenerator/QrGenerator'
 import QrCodeImage from './QrCodeImage/QrCodeImage'
+import QrTemplate from './QrTemplate/QrTemplate'
+
 function Homepage() {
 
   const [bankSelected, setBankSelected] = useState('')
   const [accName, setAccName] = useState('')
   const [accNumber, setAccNumber] = useState('')
   const [amount, setAmount] = useState('')
+  const [qrTemplate, setTemplate] = useState('')
   const [result, setResult] = useState('')
   const handleBankSelected = (data) => {
     setBankSelected(data)
@@ -26,7 +29,9 @@ function Homepage() {
   const handleAmount = (data) => {
     setAmount(data)
   }
-
+  const handleTemplate = (data) => {
+    setTemplate(data)
+  }
   const handleResult = (data) => {
     setResult(data)
   }
@@ -51,7 +56,8 @@ function Homepage() {
           <AccountName getData={handleAccName}/>
           <AccountNumber getData={handleAccNumber}/>
           <Amount getData={handleAmount}/>
-          <Generator data={{ bankSelected, accName, accNumber, amount }} getData={handleResult}/>
+          <QrTemplate getData={handleTemplate}/>
+          <Generator data={{ bankSelected, accName, accNumber, amount, qrTemplate }} getData={handleResult}/>
         </Box>
         <Box
           sx={{

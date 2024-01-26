@@ -1,13 +1,9 @@
-import { VietQR } from 'vietqr'
+import { vietQR } from '~/config/enviroments'
 import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
-import { useState } from 'react'
-const vietQR = new VietQR({
-  clientID: '8c361f04-db80-4f06-af05-045777b1e1cb',
-  apiKey: '3c1a39a5-7604-4fed-8359-d6f5f157f90c'
-})
+import { toast } from 'react-toastify'
 
-function Generator({ data: { bankSelected, accName, accNumber, amount }, getData }) {
+function Generator({ data: { bankSelected, accName, accNumber, amount, qrTemplate }, getData }) {
   const generateImage = async () => {
     // 5624624028
     const data = {
@@ -15,17 +11,20 @@ function Generator({ data: { bankSelected, accName, accNumber, amount }, getData
       accountName: accName,
       accountNumber: accNumber,
       amount: amount,
-      memo: ''
+      memo: '',
+      template: qrTemplate
     }
     return vietQR.genQRCodeBase64(data)
   }
   const getImage = async () => {
     try {
       const result = await generateImage()
-      // console.log('result: ', result.data.data.qrDataURL)
-      getData(result.data.data.qrDataURL)
+      if (result.data.desc === 'Gen VietQR successful!') {
+        getData(result.data.data.qrDataURL)
+      } else throw result
     } catch (error) {
-      console.log(error)
+      toast(error.data.desc)
+      console.log('Error: ', error)
     }
   }
   return (

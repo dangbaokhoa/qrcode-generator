@@ -4,13 +4,13 @@ import InputLabel from '@mui/material/InputLabel'
 import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
-import { bankList } from '~/apis/bank-list'
-function SelectBank({ getData }) {
-  const [bank, setBank] = useState('')
+
+function QrTemplate({ getData }) {
+  const [template, setTemplate] = useState('')
 
   const handleChange = (event) => {
-    setBank(event.target.value)
-    getData(event.target.value.bin)
+    setTemplate(event.target.value)
+    getData(event.target.value)
   }
   return (
     <Box>
@@ -24,11 +24,11 @@ function SelectBank({ getData }) {
             color: 'white',
             '&.Mui-focused': { color: 'white' }
           }}
-        >Bank</InputLabel>
+        >Template</InputLabel>
         <Select
-          label="Bank"
+          label="Template"
           onChange={handleChange}
-          value={bank}
+          value={template}
           sx={{
             width: (theme) => theme.generator.boardWidth,
             color: 'white',
@@ -39,11 +39,14 @@ function SelectBank({ getData }) {
             '.MuiSvgIcon-root': { color: 'white' }
           }}
         >
-          {bankList?.map(bank => <MenuItem sx={{ width: 'auto' }} key={bank.id} value={bank}>{bank.shortName} - {bank.name}</MenuItem>)}
+          <MenuItem value={'compact'}>Compact</MenuItem>
+          <MenuItem value={'compact2'}>Compact 2</MenuItem>
+          <MenuItem value={'qr_only'}>QR Only</MenuItem>
+          <MenuItem value={'compact'}>Compact</MenuItem>
         </Select>
       </FormControl>
     </Box>
   )
 }
 
-export default SelectBank
+export default QrTemplate
